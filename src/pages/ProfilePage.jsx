@@ -8,7 +8,7 @@ import { useAuth } from "../hooks/use-auth";
 export default function ProfilePage() {
   const [profileUser, setProfileUser] = useState({});
   const [statusWithAuthUser, setStatusWithAuthUser] = useState("");
-
+  const [profileFriends, setProfileFriends] = useState([]);
   const { profileId } = useParams();
 
   const { authUser } = useAuth();
@@ -18,17 +18,9 @@ export default function ProfilePage() {
     axios
       .get(`/user/${profileId}`)
       .then((res) => {
-        console.log("authUser =", authUser);
-        console.log("res =", res);
         setProfileUser(res.data.user);
-
-        let mappingProfileStatus = "";
-        if (res.data.user?.id === authUser?.id) {
-          mappingProfileStatus = "AUTH_USER";
-        } else if (res.data.user?.id !== authUser?.id) {
-          mappingProfileStatus = "UNKNOW";
-        }
-        setStatusWithAuthUser(mappingProfileStatus);
+        setStatusWithAuthUser(res.data.status);
+        setProfileFriends(res.data.friends);
       })
       .catch((err) => {
         console.log(err);
@@ -45,9 +37,10 @@ export default function ProfilePage() {
             }
           />
           <ProfileInfo
-            profileUser={profileUser}
+            profileUser={isAuthUser ? authUser : profileUser}
             statusWithAuthUser={statusWithAuthUser}
             setStatusWithAuthUser={setStatusWithAuthUser}
+            profileFriends={profileFriends}
           />
         </>
       ) : (

@@ -12,6 +12,5 @@ export default function FriendAction({ setStatusWithAuthUser }) {
       console.log(err);
     }
   };
-
   return <ActionButton onClick={handleClickUnfriend}>Unfriend</ActionButton>;
 }

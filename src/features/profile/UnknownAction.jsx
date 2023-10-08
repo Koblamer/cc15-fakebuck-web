@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import ActionButton from "./ActionButton";
-import axios from "axios";
+import axios from "../../config/axios";
 
 export default function UnknownAction({ setStatusWithAuthUser }) {
   const { profileId } = useParams();
@@ -14,5 +14,5 @@ export default function UnknownAction({ setStatusWithAuthUser }) {
     }
   };
 
-  return <ActionButton onclick={handleClickAddFriend}>Add friend</ActionButton>;
+  return <ActionButton onClick={handleClickAddFriend}>Add friend</ActionButton>;
 }
