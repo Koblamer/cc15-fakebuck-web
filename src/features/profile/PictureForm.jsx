@@ -1,6 +1,6 @@
-import { useRef } from 'react';
-import FormButton from './FormButton';
-import { useState } from 'react';
+import { useRef } from "react";
+import FormButton from "./FormButton";
+import { useState } from "react";
 
 export default function PictureForm({ title, children, initialSrc, onSave }) {
   const [file, setFile] = useState(null);
@@ -12,8 +12,9 @@ export default function PictureForm({ title, children, initialSrc, onSave }) {
         type="file"
         className="hidden"
         ref={inputEl}
-        onChange={e => {
+        onChange={(e) => {
           if (e.target.files[0]) {
+            console.log("Select file = ", e.target.files[0]);
             setFile(e.target.files[0]);
           }
         }}
@@ -26,7 +27,7 @@ export default function PictureForm({ title, children, initialSrc, onSave }) {
               <FormButton onClick={() => onSave(file)}>Save</FormButton>
               <FormButton
                 onClick={() => {
-                  inputEl.current.value = '';
+                  inputEl.current.value = "";
                   setFile(null);
                 }}
               >

@@ -1,11 +1,25 @@
-import Avatar from '../../components/Avatar';
-// import AuthUserAction from './AuthUserAction';
-// import FriendAction from './FriendAction';
-import ReceiverAction from './ReceiverAction';
-// import RequesterAction from './RequesterAction';
-// import UnknownAction from './UnknownAction';
+import Avatar from "../../components/Avatar";
+import AuthUserAction from "./AuthUserAction";
+import FriendAction from "./FriendAction";
+import ReceiverAction from "./ReceiverAction";
+import RequesterAction from "./RequesterAction";
+import UnknownAction from "./UnknownAction";
 
-export default function ProfileInfo({ profileUser }) {
+export default function ProfileInfo({
+  profileUser,
+  statusWithAuthUser,
+  setStatusWithAuthUser,
+}) {
+  const mappingObj = {
+    AUTH_USER: <AuthUserAction />,
+    UNKNOW: <UnknownAction setStatusWithAuthUser={setStatusWithAuthUser} />,
+    FRIEND: <FriendAction setStatusWithAuthUser={setStatusWithAuthUser} />,
+    REQUESTER: (
+      <RequesterAction setStatusWithAuthUser={setStatusWithAuthUser} />
+    ),
+    RECEIVER: <ReceiverAction setStatusWithAuthUser={setStatusWithAuthUser} />,
+  };
+
   return (
     <div className="max-w-6xl mx-auto flex gap-4 px-4 items-end">
       <div className="-mt-8">
@@ -27,7 +41,8 @@ export default function ProfileInfo({ profileUser }) {
         </div>
       </div>
       <div>
-        <ReceiverAction />
+        {mappingObj[statusWithAuthUser]}
+        {/* <ReceiverAction /> */}
         {/* <RequesterAction /> */}
         {/* <FriendAction /> */}
         {/* <UnknownAction /> */}

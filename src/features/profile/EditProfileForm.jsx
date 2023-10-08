@@ -1,19 +1,20 @@
-import Avatar from '../../components/Avatar';
-import CoverImage from './CoverImage';
-import PictureForm from './PictureForm';
-import { useAuth } from '../../hooks/use-auth';
-import { useState } from 'react';
-import Loading from '../../components/Loading';
+import Avatar from "../../components/Avatar";
+import CoverImage from "./CoverImage";
+import PictureForm from "./PictureForm";
+import { useAuth } from "../../hooks/use-auth";
+import { useState } from "react";
+import Loading from "../../components/Loading";
 
 export default function EditProfileForm({ onSuccess }) {
   const [loading, setLoading] = useState(false);
   const { authUser, updateProfile } = useAuth();
 
-  const uploadProfileImage = async input => {
+  const uploadProfileImage = async (input) => {
     try {
       const formData = new FormData();
-      formData.append('profileImage', input);
+      formData.append("profileImage", input);
       setLoading(true);
+      console.log("formData =", ...formData);
       await updateProfile(formData);
       onSuccess();
     } catch (err) {
@@ -23,10 +24,10 @@ export default function EditProfileForm({ onSuccess }) {
     }
   };
 
-  const uploadCoverImage = async input => {
+  const uploadCoverImage = async (input) => {
     try {
       const formData = new FormData();
-      formData.append('coverImage', input);
+      formData.append("coverImage", input);
       setLoading(true);
       await updateProfile(formData);
       onSuccess();

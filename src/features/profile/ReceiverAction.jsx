@@ -1,10 +1,31 @@
-import ActionButton from './ActionButton';
+import { useParams } from "react-router-dom";
+import ActionButton from "./ActionButton";
+import axios from "axios";
 
-export default function ReceiverAction() {
+export default function ReceiverAction({ setStatusWithAuthUser }) {
+  const { profileId } = useParams();
+  const handleClickAccept = async () => {
+    try {
+      await axios.patch(`/friend${profileId}`);
+      setStatusWithAuthUser("FRIEND");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleClickReject = async () => {
+    try {
+      await axios.delete(`/friend/${profileId}/reject`);
+      setStatusWithAuthUser("UNKNOWN");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="flex gap-4">
-      <ActionButton>Accept</ActionButton>
-      <ActionButton>Reject</ActionButton>
+      <ActionButton onclick={handleClickAccept}>Accept</ActionButton>
+      <ActionButton onclick={handleClickReject}>Reject</ActionButton>
     </div>
   );
 }

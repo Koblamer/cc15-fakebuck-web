@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { createContext } from 'react';
-import axios from '../config/axios';
+import { useState } from "react";
+import { createContext } from "react";
+import axios from "../config/axios";
 import {
   addAccessToken,
   getAccessToken,
-  removeAccessToken
-} from '../utils/local-storage';
-import { useEffect } from 'react';
+  removeAccessToken,
+} from "../utils/local-storage";
+import { useEffect } from "react";
 
 export const AuthContext = createContext();
 
@@ -17,8 +17,8 @@ export default function AuthContextProvider({ children }) {
   useEffect(() => {
     if (getAccessToken()) {
       axios
-        .get('/auth/me')
-        .then(res => {
+        .get("/auth/me")
+        .then((res) => {
           setAuthUser(res.data.user);
         })
         .finally(() => {
@@ -29,14 +29,14 @@ export default function AuthContextProvider({ children }) {
     }
   }, []);
 
-  const login = async credential => {
-    const res = await axios.post('/auth/login', credential);
+  const login = async (credential) => {
+    const res = await axios.post("/auth/login", credential);
     addAccessToken(res.data.accessToken);
     setAuthUser(res.data.user);
   };
 
-  const register = async registerInputObject => {
-    const res = await axios.post('/auth/register', registerInputObject);
+  const register = async (registerInputObject) => {
+    const res = await axios.post("/auth/register", registerInputObject);
     addAccessToken(res.data.accessToken);
     setAuthUser(res.data.user);
   };
@@ -46,8 +46,9 @@ export default function AuthContextProvider({ children }) {
     setAuthUser(null);
   };
 
-  const updateProfile = async data => {
-    const res = await axios.patch('/user', data);
+  const updateProfile = async (data) => {
+    console.log("updateProfile api data =", data);
+    const res = await axios.patch("/user", data);
     setAuthUser({ ...authUser, ...res.data });
   };
 
@@ -59,7 +60,7 @@ export default function AuthContextProvider({ children }) {
         initialLoading,
         register,
         logout,
-        updateProfile
+        updateProfile,
       }}
     >
       {children}
