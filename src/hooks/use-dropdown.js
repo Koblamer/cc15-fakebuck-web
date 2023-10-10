@@ -1,13 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
+import { useRef } from "react";
+import { useState } from "react";
 
-export default function useDropdown() {
+function useDropdown() {
   const [isOpen, setIsOpen] = useState(false);
 
   const dropDownEl = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (!dropDownEl.current.contains(e.target)) {
+      if (!dropDownEl.current?.contains(e.target)) {
         setIsOpen(false);
       }
     };
@@ -16,5 +18,7 @@ export default function useDropdown() {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
-  return { dropDownEl, isOpen };
+  return { dropDownEl, isOpen, setIsOpen };
 }
+
+export default useDropdown;

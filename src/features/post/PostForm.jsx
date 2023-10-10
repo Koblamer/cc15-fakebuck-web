@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useAuth } from "../../hooks/use-auth";
 import { ImageIcon } from "../../icons";
-import axios from "../../config/axios";
+
 import Loading from "../../components/Loading";
 
 export default function PostForm({ onSuccess, onSubmit }) {
