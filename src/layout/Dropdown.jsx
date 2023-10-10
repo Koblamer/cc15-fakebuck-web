@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom';
-import Avatar from '../components/Avatar';
-import { RightFromBracketIcon } from '../icons';
-import { useState } from 'react';
-import { useAuth } from '../hooks/use-auth';
-import { useEffect } from 'react';
-import { useRef } from 'react';
+import { Link } from "react-router-dom";
+import Avatar from "../components/Avatar";
+import { RightFromBracketIcon } from "../icons";
+import { useState } from "react";
+import { useAuth } from "../hooks/use-auth";
+import { useEffect } from "react";
+import { useRef } from "react";
 
 export default function Dropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,14 +14,14 @@ export default function Dropdown() {
   const { logout, authUser } = useAuth();
 
   useEffect(() => {
-    const handleClickOutside = e => {
+    const handleClickOutside = (e) => {
       if (!dropDownEl.current.contains(e.target)) {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
   return (

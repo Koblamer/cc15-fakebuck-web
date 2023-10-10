@@ -1,28 +1,28 @@
-import { useRef, useState } from 'react';
-import { useAuth } from '../../hooks/use-auth';
-import { ImageIcon } from '../../icons';
-import axios from '../../config/axios';
-import Loading from '../../components/Loading';
+import { useRef, useState } from "react";
+import { useAuth } from "../../hooks/use-auth";
+import { ImageIcon } from "../../icons";
+import axios from "../../config/axios";
+import Loading from "../../components/Loading";
 
-export default function PostForm({ onSuccess }) {
+export default function PostForm({ onSuccess, onSubmit }) {
   const [file, setFile] = useState(null);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const { authUser } = useAuth();
   const fileEl = useRef(null);
 
-  const handleSubmitForm = async e => {
+  const handleSubmitForm = async (e) => {
     try {
       e.preventDefault();
       const formData = new FormData();
       if (file) {
-        formData.append('image', file);
+        formData.append("image", file);
       }
       if (message) {
-        formData.append('message', message);
+        formData.append("message", message);
       }
       setLoading(true);
-      await axios.post('/post', formData);
+      await onSubmit(formData);
       onSuccess();
     } catch (err) {
       console.log(err);
@@ -40,7 +40,7 @@ export default function PostForm({ onSuccess }) {
           rows="5"
           placeholder={`What's on your mind, ${authUser.firstName}`}
           value={message}
-          onChange={e => setMessage(e.target.value)}
+          onChange={(e) => setMessage(e.target.value)}
         />
 
         {file ? (
@@ -58,7 +58,7 @@ export default function PostForm({ onSuccess }) {
           type="file"
           className="hidden"
           ref={fileEl}
-          onChange={e => {
+          onChange={(e) => {
             if (e.target.files[0]) {
               setFile(e.target.files[0]);
             }

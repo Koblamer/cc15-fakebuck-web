@@ -1,13 +1,27 @@
-import { useAuth } from '../../hooks/use-auth';
-import { MessageIcon, ThumbsUpAltIcon, ThumbsUpIcon } from '../../icons';
-import ActionButton from './ActionButton';
+import { useAuth } from "../../hooks/use-auth";
+import { MessageIcon, ThumbsUpAltIcon, ThumbsUpIcon } from "../../icons";
+import ActionButton from "./ActionButton";
 
 export default function PostFooter({ postObj }) {
-  const { totalLike, likes } = postObj;
+  const { totalLike, id } = postObj;
   const { authUser } = useAuth();
 
+  const [likes, setLikes] = useState([postObj.likes]); // {userId: 1}
+
   // [ { userId: 1 }, { userId: 2 } ]
-  const isLiked = likes.find(el => el.userId === authUser.id);
+  const isLiked = likes.find((el) => el.userId === authUser.id);
+  const handleClickLike = async () => {
+    try {
+      await axios.post(`/post/${id}/likes`);
+      if (isLiked) {
+        return setLikes(likes.filter(el.userId) !== authUser.id);
+      }
+      setLikes([...likes, { userId: authUser.id }]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center pb-2">
@@ -28,7 +42,7 @@ export default function PostFooter({ postObj }) {
         <ActionButton active={isLiked}>
           <div className="flex justify-center items-center gap-2">
             <ThumbsUpAltIcon
-              className={isLiked ? 'fill-blue-600' : 'fill-gray-500'}
+              className={isLiked ? "fill-blue-600" : "fill-gray-500"}
             />
             <span>Like</span>
           </div>
